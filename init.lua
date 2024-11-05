@@ -655,11 +655,23 @@ require('lazy').setup({
         handlers = {
           function(server_name)
             local server = servers[server_name] or {}
+
+            local nvim_lsp = require 'lspconfig'
+
+            if server_name == 'denols' then
+              server.root_dir = nvim_lsp.util.root_pattern('deno.json', 'deno.jsonc')
+            end
+
+            if server_name == 'ts_ls' then
+              server.root_dir = nvim_lsp.util.root_pattern 'package.json'
+              server.single_file_support = false
+            end
+
             -- This handles overriding only values explicitly passed
             -- by the server configuration above. Useful when disabling
             -- certain features of an LSP (for example, turning off formatting for ts_ls)
             server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-            require('lspconfig')[server_name].setup(server)
+            nvim_lsp[server_name].setup(server)
           end,
         },
       }
