@@ -1,3 +1,5 @@
+local is_deno = require('utils.deno').is_deno_project()
+
 return {
 
   { -- Linting
@@ -5,11 +7,17 @@ return {
     event = { 'BufReadPre', 'BufNewFile' },
     config = function()
       local lint = require 'lint'
+
       lint.linters_by_ft = {
         -- markdown = { 'markdownlint' },
-        typescript = { 'eslint_d' },
-        typescriptreact = { 'eslint_d' },
+        -- typescript = { 'eslint_d' },
+        -- typescriptreact = { 'eslint_d' },
       }
+
+      if not is_deno then
+        lint.linters_by_ft.typescript = { 'eslint_d' }
+        lint.linters_by_ft.typescriptreact = { 'eslint_d' }
+      end
 
       -- To allow other plugins to add linters to require('lint').linters_by_ft,
       -- instead set linters_by_ft like this:

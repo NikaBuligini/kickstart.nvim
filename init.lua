@@ -216,6 +216,8 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
+local is_deno = require('utils.deno').is_deno_project()
+
 -- [[ Configure and install plugins ]]
 --
 --  To check the current status of your plugins, run
@@ -658,13 +660,23 @@ require('lazy').setup({
 
             local nvim_lsp = require 'lspconfig'
 
-            if server_name == 'denols' then
-              server.root_dir = nvim_lsp.util.root_pattern('deno.json', 'deno.jsonc')
-            end
+            if is_deno then
+              if server_name == 'eslint_d' then
+                return
+              end
 
-            if server_name == 'ts_ls' then
-              server.root_dir = nvim_lsp.util.root_pattern 'package.json'
-              server.single_file_support = false
+              if server_name == 'denols' then
+                server.root_dir = nvim_lsp.util.root_pattern('deno.json', 'deno.jsonc')
+              end
+
+              if server_name == 'ts_ls' then
+                server.root_dir = nvim_lsp.util.root_pattern 'package.json'
+                server.single_file_support = false
+              end
+            else
+              if server_name == 'denols' then
+                return
+              end
             end
 
             -- This handles overriding only values explicitly passed
