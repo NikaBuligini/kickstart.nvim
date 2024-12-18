@@ -193,6 +193,14 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 vim.keymap.set('n', '<C-d>', '<C-d>zz', { desc = 'Scroll window downwards and center' })
 vim.keymap.set('n', '<C-u>', '<C-u>zz', { desc = 'Scroll window upwards and center' })
 
+-- Quickfix list navigation
+-- Add telescope results to quickfix list using <C-q>
+vim.keymap.set('n', '<M-j>', '<cmd>cnext<CR>', { desc = 'Go to the next quickfix item' })
+vim.keymap.set('n', '<M-k>', '<cmd>cprev<CR>', { desc = 'Go to the previous quickfix item' })
+-- :cdo s/foo/bar/gc | quickfix search and replace
+
+vim.keymap.set('n', '<leader>bd', '<cmd>bd!<CR>', { desc = '[D]elete [b]uffer' })
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
