@@ -204,6 +204,32 @@ vim.keymap.set('v', '<leader>x', ':lua<CR>', { desc = 'Execute Lua code for visu
 
 vim.keymap.set('n', '<leader>bd', '<cmd>bd!<CR>', { desc = '[D]elete [b]uffer' })
 
+-- Terminal
+vim.api.nvim_create_autocmd('TermOpen', {
+  group = vim.api.nvim_create_augroup('custom-term-open', { clear = true }),
+  callback = function()
+    vim.opt.number = false
+    vim.opt.relativenumber = false
+
+    vim.api.nvim_buf_set_keymap(0, 't', '<C-q>', '<C-\\><C-N>:bdelete!<CR>', { noremap = true, silent = true })
+  end,
+})
+
+-- local terminal_job_id = 0
+vim.keymap.set('n', '<leader>st', function()
+  vim.cmd.vnew()
+  vim.cmd.term()
+  vim.cmd.wincmd 'J'
+  vim.api.nvim_command 'startinsert'
+  vim.api.nvim_win_set_height(0, 15)
+
+  -- terminal_job_id = vim.bo.channel
+end, { desc = '[S]mall [T]erminal' })
+
+-- vim.keymap.set('n', '<leader>example', function()
+--   vim.fn.chansend(terminal_job_id, { "echo 'Hello, World!'\r\n" })
+-- end, { desc = 'Send example command to terminal' })
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
