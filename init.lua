@@ -199,6 +199,9 @@ vim.keymap.set('n', '<M-j>', '<cmd>cnext<CR>', { desc = 'Go to the next quickfix
 vim.keymap.set('n', '<M-k>', '<cmd>cprev<CR>', { desc = 'Go to the previous quickfix item' })
 -- :cdo s/foo/bar/gc | quickfix search and replace
 
+vim.keymap.set('n', '<leader>x', ':.lua<CR>', { desc = 'Execute Lua code' })
+vim.keymap.set('v', '<leader>x', ':lua<CR>', { desc = 'Execute Lua code for visually selected' })
+
 vim.keymap.set('n', '<leader>bd', '<cmd>bd!<CR>', { desc = '[D]elete [b]uffer' })
 
 -- [[ Basic Autocommands ]]
