@@ -15,6 +15,15 @@ return {
   },
   opts = {
     filesystem = {
+      filtered_items = {
+        always_show = {
+          '.templafy',
+          'build',
+        },
+        always_show_by_pattern = {
+          '.env*',
+        },
+      },
       window = {
         mappings = {
           ['\\'] = 'close_window',
