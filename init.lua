@@ -157,6 +157,11 @@ vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
+-- Set a custom title for the window
+vim.opt.title = true
+vim.opt.titlelen = 0 -- do not shorten title
+vim.opt.titlestring = 'nvim: ' .. require('utils.path').get_project_name()
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
