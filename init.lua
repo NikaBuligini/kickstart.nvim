@@ -724,7 +724,36 @@ require('lazy').setup({
             },
           },
         },
+
+        jsonls = {
+          filetypes = { 'json', 'jsonc' },
+          settings = {
+            json = {
+              schemas = {
+                {
+                  fileMatch = { 'package.json' },
+                  url = 'https://json.schemastore.org/package.json',
+                },
+                {
+                  fileMatch = { 'tsconfig*.json' },
+                  url = 'https://json.schemastore.org/tsconfig.json',
+                },
+                {
+                  fileMatch = {
+                    '.stylelintrc',
+                    '.stylelintrc.json',
+                    'stylelint.config.json',
+                  },
+                  url = 'http://json.schemastore.org/stylelintrc.json',
+                },
+              },
+            },
+          },
+        },
       }
+
+      -- Enable snippet support for completion in jsonls
+      capabilities.textDocument.completion.completionItem.snippetSupport = true
 
       -- Ensure the servers and tools above are installed
       --
@@ -746,6 +775,10 @@ require('lazy').setup({
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
       require('mason-lspconfig').setup {
+        automatic_installation = true,
+        ensure_installed = {
+          'jsonls',
+        },
         handlers = {
           function(server_name)
             local server = servers[server_name] or {}
@@ -836,7 +869,7 @@ require('lazy').setup({
       -- Load the colorscheme here.
       -- Like many other themes, this one has different styles, and you could load
       -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'tokyonight-night'
+      vim.cmd.colorscheme 'tokyonight-moon'
 
       -- You can configure highlights by doing something like:
       vim.cmd.hi 'Comment gui=none'
