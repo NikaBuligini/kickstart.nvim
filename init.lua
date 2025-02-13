@@ -209,6 +209,9 @@ vim.keymap.set('v', '<leader>x', ':lua<CR>', { desc = 'Execute Lua code for visu
 vim.keymap.set('n', '<leader>bd', '<cmd>bd!<CR>', { desc = '[D]elete [b]uffer' })
 vim.keymap.set('n', '<leader>bad', '<cmd>%bd|e#<CR>', { desc = '[D]elete [A]ll [B]uffers but current' })
 
+vim.keymap.set('n', '<leader>re', '<cmd>!eslint_d restart<CR>', { desc = '[R]estart [e]slint server' })
+vim.keymap.set('n', '<leader>rl', '<cmd>LspRestart<CR>', { desc = '[R]estart [L]sp' })
+
 -- Terminal
 vim.api.nvim_create_autocmd('TermOpen', {
   group = vim.api.nvim_create_augroup('custom-term-open', { clear = true }),
