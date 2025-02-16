@@ -746,6 +746,10 @@ require('lazy').setup({
                   },
                   url = 'http://json.schemastore.org/stylelintrc.json',
                 },
+                {
+                  fileMatch = { 'lefthook*.json', '.lefthook*.json' },
+                  url = 'https://raw.githubusercontent.com/evilmartians/lefthook/refs/heads/master/schema.json',
+                },
               },
             },
           },
