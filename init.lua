@@ -750,6 +750,10 @@ require('lazy').setup({
                   fileMatch = { 'lefthook*.json', '.lefthook*.json' },
                   url = 'https://raw.githubusercontent.com/evilmartians/lefthook/refs/heads/master/schema.json',
                 },
+                {
+                  fileMatch = { 'deno.json', 'deno.jsonc' },
+                  url = 'https://deno.land/x/deno/cli/schemas/config-file.v1.json',
+                },
               },
             },
           },
