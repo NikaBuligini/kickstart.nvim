@@ -13,6 +13,7 @@ return {
         javascript = { 'eslint_d' },
         typescript = { 'eslint_d' },
         typescriptreact = { 'eslint_d' },
+        scss = { 'stylelint' },
       }
 
       if is_deno then
