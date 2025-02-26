@@ -10,15 +10,16 @@ return {
 
       lint.linters_by_ft = {
         -- markdown = { 'markdownlint' },
-        javascript = { 'eslint_d' },
-        typescript = { 'eslint_d' },
-        typescriptreact = { 'eslint_d' },
+        -- javascript = { 'eslint' },
+        -- javascriptreact = { 'eslint' },
+        -- typescript = { 'eslint' },
+        -- typescriptreact = { 'eslint' },
         scss = { 'stylelint' },
       }
 
       if is_deno then
-        lint.linters_by_ft.typescript = nil
-        lint.linters_by_ft.typescriptreact = nil
+        lint.linters_by_ft.typescript = { 'deno' }
+        lint.linters_by_ft.typescriptreact = { 'deno' }
       end
 
       -- To allow other plugins to add linters to require('lint').linters_by_ft,
