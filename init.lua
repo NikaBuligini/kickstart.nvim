@@ -836,6 +836,7 @@ require('lazy').setup({
         'ts_ls',
         'jsonls',
         'eslint-lsp',
+        'denols',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -856,6 +857,10 @@ require('lazy').setup({
               if server_name == 'ts_ls' then
                 server.root_dir = nvim_lsp.util.root_pattern 'package.json'
                 server.single_file_support = false
+              end
+
+              if server_name == 'eslint' then
+                return
               end
             else
               if server_name == 'denols' then
