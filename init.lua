@@ -236,6 +236,16 @@ vim.keymap.set('n', '<leader>st', function()
   -- terminal_job_id = vim.bo.channel
 end, { desc = '[S]mall [T]erminal' })
 
+vim.api.nvim_create_autocmd('BufWritePre', {
+  callback = function()
+    vim.lsp.buf.format {
+      filter = function(client)
+        return client.name ~= 'ts_ls'
+      end,
+    }
+  end,
+})
+
 -- vim.keymap.set('n', '<leader>example', function()
 --   vim.fn.chansend(terminal_job_id, { "echo 'Hello, World!'\r\n" })
 -- end, { desc = 'Send example command to terminal' })
@@ -857,6 +867,13 @@ require('lazy').setup({
             -- by the server configuration above. Useful when disabling
             -- certain features of an LSP (for example, turning off formatting for ts_ls)
             server.capabilities = require('blink.cmp').get_lsp_capabilities(vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {}))
+
+            if server_name == 'ts_ls' then
+              server.on_attach = function(client)
+                client.server_capabilities.documentFormattingProvider = false
+              end
+            end
+
             nvim_lsp[server_name].setup(server)
           end,
         },
