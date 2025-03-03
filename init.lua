@@ -812,6 +812,15 @@ require('lazy').setup({
             },
           },
         },
+
+        tailwindcss = {
+          -- exclude a filetype from the default_config
+          filetypes_exclude = { 'markdown' },
+          -- add additional filetypes to the default_config
+          filetypes_include = {},
+          -- to fully override the default_config, change the below
+          -- filetypes = {}
+        },
       }
 
       -- Enable snippet support for completion in jsonls
@@ -833,8 +842,6 @@ require('lazy').setup({
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
-        'ts_ls',
-        'jsonls',
         'eslint-lsp',
         'denols',
       })
