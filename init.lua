@@ -808,6 +808,10 @@ require('lazy').setup({
                   fileMatch = { 'deno.json', 'deno.jsonc' },
                   url = 'https://deno.land/x/deno/cli/schemas/config-file.v1.json',
                 },
+                {
+                  fileMatch = { 'nx.json', 'nx.jsonc' },
+                  url = 'https://raw.githubusercontent.com/nrwl/nx/refs/heads/master/packages/nx/schemas/nx-schema.json',
+                },
               },
             },
           },
@@ -821,6 +825,12 @@ require('lazy').setup({
           -- to fully override the default_config, change the below
           -- filetypes = {}
         },
+
+        omnisharp = {
+          filetypes = { 'cs' },
+        },
+
+        terraformls = {},
       }
 
       -- Enable snippet support for completion in jsonls
