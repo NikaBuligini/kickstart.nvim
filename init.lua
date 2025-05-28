@@ -761,8 +761,11 @@ require('lazy').setup({
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
-        -- ts_ls = {},
-        --
+        ts_ls = {
+          settings = {
+            format = { enable = false },
+          },
+        },
 
         lua_ls = {
           -- cmd = { ... },
@@ -817,6 +820,16 @@ require('lazy').setup({
           },
         },
 
+        yamlls = {
+          settings = {
+            yaml = {
+              schemas = {
+                ['https://json.schemastore.org/pnpm-workspace.json'] = 'pnpm-workspace.yaml',
+              },
+            },
+          },
+        },
+
         tailwindcss = {
           -- exclude a filetype from the default_config
           filetypes_exclude = { 'markdown' },
@@ -853,7 +866,7 @@ require('lazy').setup({
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
         'eslint-lsp',
-        'denols',
+        -- 'denols',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
