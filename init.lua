@@ -219,7 +219,7 @@ vim.keymap.set('n', '<M-k>', '<cmd>cprev<CR>', { desc = 'Go to the previous quic
 vim.keymap.set('n', '<leader>x', ':.lua<CR>', { desc = 'Execute Lua code' })
 vim.keymap.set('v', '<leader>x', ':lua<CR>', { desc = 'Execute Lua code for visually selected' })
 
-vim.keymap.set('n', '<leader>bad', '<cmd>%bd|e#<CR>', { desc = '[D]elete [A]ll [B]uffers but current' })
+vim.keymap.set('n', '<leader>cb', '<cmd>%bd|e#<CR>', { desc = '[C]lear All [B]uffers but current' })
 
 vim.keymap.set('n', '<leader>rl', '<cmd>LspRestart<CR>', { desc = '[R]estart [L]sp' })
 
