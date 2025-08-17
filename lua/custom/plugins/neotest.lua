@@ -13,15 +13,26 @@ return {
 
     neotest.setup {
       adapters = {
-        require 'neotest-vitest',
+        require 'neotest-vitest' {
+          filter_dir = function(name)
+            return name ~= 'node_modules'
+          end,
 
-        require('neotest-playwright').adapter {
-          options = {
-            persist_project_selection = true,
-            enable_dynamic_test_discovery = true,
-            debug = true,
-          },
+          is_test_file = function(file)
+            return file:match '%.test%.tsx?$' ~= nil
+          end,
         },
+
+        -- require('neotest-playwright').adapter {
+        --   options = {
+        --     persist_project_selection = true,
+        --     enable_dynamic_test_discovery = false,
+        --
+        --     is_test_file = function(file)
+        --       return file:match '%.spec%.tsx?$' ~= nil
+        --     end,
+        --   },
+        -- },
       },
     }
 
