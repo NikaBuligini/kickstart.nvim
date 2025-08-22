@@ -45,19 +45,17 @@ return {
     {
       '<leader>wd',
       function()
-        require('persistence').stop()
-      end,
-      desc = "Don't Save Current Session",
-    },
-    {
-      '<leader>wD',
-      function()
         local persistence = require 'persistence'
 
         local dir = vim.fn.stdpath 'state' .. '/sessions/'
+        local session_files = vim.fn.globpath(dir, '*', 0, 1)
 
-        vim.ui.select(vim.fn.globpath(dir, '*', 0, 1), {
+        vim.ui.select(session_files, {
           prompt = 'Delete session',
+          format_item = function(path)
+            -- remove base path and replace % with /
+            return path:gsub('^' .. dir, ''):gsub('%%', '/')
+          end,
         }, function(choice)
           if choice == persistence.current() then
             persistence.stop()
@@ -70,6 +68,13 @@ return {
         end)
       end,
       desc = 'Delete Session',
+    },
+    {
+      '<leader>wD',
+      function()
+        require('persistence').stop()
+      end,
+      desc = "Don't Save Current Session",
     },
   },
 }
