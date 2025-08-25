@@ -863,6 +863,7 @@ require('lazy').setup({
         },
 
         terraformls = {},
+        rust_analyzer = {},
       }
 
       -- Enable snippet support for completion in jsonls
