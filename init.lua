@@ -867,9 +867,9 @@ require('lazy').setup({
           -- filetypes = {}
         },
 
-        omnisharp = {
-          filetypes = { 'cs' },
-        },
+        -- omnisharp = {
+        --   filetypes = { 'cs' },
+        -- },
 
         terraformls = {},
         rust_analyzer = {},
