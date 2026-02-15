@@ -1,5 +1,3 @@
-local is_deno = require('utils.deno').is_deno_project()
-
 return {
 
   { -- Linting
@@ -16,11 +14,6 @@ return {
         -- typescriptreact = { 'eslint' },
         scss = { 'stylelint' },
       }
-
-      if is_deno then
-        lint.linters_by_ft.typescript = { 'deno' }
-        lint.linters_by_ft.typescriptreact = { 'deno' }
-      end
 
       -- To allow other plugins to add linters to require('lint').linters_by_ft,
       -- instead set linters_by_ft like this:

@@ -11,7 +11,7 @@ return {
     opts = {
       debug = {
         -- we expect your collaboration at least during the beta
-        enabled = true,
+        enabled = false,
         -- to help us optimize the scoring system, feel free to share your scores!
         -- show_scores = true,
       },

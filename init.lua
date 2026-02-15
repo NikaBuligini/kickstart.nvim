@@ -238,8 +238,8 @@ vim.keymap.set('n', '<leader>rl', '<cmd>LspRestart<CR>', { desc = '[R]estart [L]
 vim.api.nvim_create_autocmd('TermOpen', {
   group = vim.api.nvim_create_augroup('custom-term-open', { clear = true }),
   callback = function()
-    vim.opt.number = false
-    vim.opt.relativenumber = false
+    vim.opt_local.number = false
+    vim.opt_local.relativenumber = false
 
     vim.api.nvim_buf_set_keymap(0, 't', '<C-q>', '<C-\\><C-N>:bdelete!<CR>', { noremap = true, silent = true })
   end,
@@ -300,8 +300,6 @@ end
 ---@type vim.Option
 local rtp = vim.opt.rtp
 rtp:prepend(lazypath)
-
-local is_deno = require('utils.deno').is_deno_project()
 
 -- [[ Configure and install plugins ]]
 --
@@ -473,7 +471,7 @@ require('lazy').setup({
         },
       }
 
-      function vim.getVisualSelection()
+      local function get_visual_selection()
         local current_clipboard_content = vim.fn.getreg '"'
 
         vim.cmd 'noau normal! "vy"'
@@ -512,10 +510,10 @@ require('lazy').setup({
 
       -- Visual mode mappings
       vim.keymap.set('v', '<leader>sw', function()
-        builtin.current_buffer_fuzzy_find { default_text = vim.getVisualSelection() }
+        builtin.current_buffer_fuzzy_find { default_text = get_visual_selection() }
       end, { desc = '[S]earch selection in current [F]ile' })
       vim.keymap.set('v', '<leader>sg', function()
-        builtin.grep_string { default_text = vim.getVisualSelection() }
+        builtin.grep_string { default_text = get_visual_selection() }
       end, { desc = '[S]earch selection by [G]rep' })
 
       -- This runs on LSP attach per buffer (see main LSP attach function in 'neovim/nvim-lspconfig' config for more info,
@@ -758,10 +756,6 @@ require('lazy').setup({
                   url = 'https://raw.githubusercontent.com/evilmartians/lefthook/refs/heads/master/schema.json',
                 },
                 {
-                  fileMatch = { 'deno.json', 'deno.jsonc' },
-                  url = 'https://deno.land/x/deno/cli/schemas/config-file.v1.json',
-                },
-                {
                   fileMatch = { 'nx.json', 'nx.jsonc' },
                   url = 'https://raw.githubusercontent.com/nrwl/nx/refs/heads/master/packages/nx/schemas/nx-schema.json',
                 },
@@ -813,7 +807,6 @@ require('lazy').setup({
         'stylua', -- Used to format Lua code
         'eslint-lsp',
         'oxlint',
-        -- 'denols',
       })
 
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
@@ -826,25 +819,6 @@ require('lazy').setup({
             local server = servers[server_name] or {}
 
             local nvim_lsp = require 'lspconfig'
-
-            if is_deno then
-              if server_name == 'denols' then
-                server.root_dir = nvim_lsp.util.root_pattern('deno.json', 'deno.jsonc')
-              end
-
-              if server_name == 'ts_ls' then
-                server.root_dir = nvim_lsp.util.root_pattern 'package.json'
-                server.single_file_support = false
-              end
-
-              if server_name == 'eslint' then
-                return
-              end
-            else
-              if server_name == 'denols' then
-                return
-              end
-            end
 
             -- This handles overriding only values explicitly passed
             -- by the server configuration above. Useful when disabling
