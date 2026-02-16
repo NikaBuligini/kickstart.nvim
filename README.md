@@ -320,3 +320,12 @@ asdf reshim neovim
 </details>
 
 </details>
+
+# Cleanup
+
+In order to remove installed dependencies, you can use the following commands:
+
+```bash
+cd ~/.local/share/nvim
+rm -rf lazy
+```
