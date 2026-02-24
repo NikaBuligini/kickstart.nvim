@@ -259,9 +259,7 @@ end, { desc = '[S]mall [T]erminal' })
 vim.api.nvim_create_autocmd('BufWritePre', {
   callback = function()
     vim.lsp.buf.format {
-      filter = function(client)
-        return client.name ~= 'ts_ls'
-      end,
+      filter = function(client) return client.name ~= 'ts_ls' end,
     }
   end,
 })
@@ -509,12 +507,13 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
 
       -- Visual mode mappings
-      vim.keymap.set('v', '<leader>sw', function()
-        builtin.current_buffer_fuzzy_find { default_text = get_visual_selection() }
-      end, { desc = '[S]earch selection in current [F]ile' })
-      vim.keymap.set('v', '<leader>sg', function()
-        builtin.grep_string { default_text = get_visual_selection() }
-      end, { desc = '[S]earch selection by [G]rep' })
+      vim.keymap.set(
+        'v',
+        '<leader>sw',
+        function() builtin.current_buffer_fuzzy_find { default_text = get_visual_selection() } end,
+        { desc = '[S]earch selection in current [F]ile' }
+      )
+      vim.keymap.set('v', '<leader>sg', function() builtin.grep_string { default_text = get_visual_selection() } end, { desc = '[S]earch selection by [G]rep' })
 
       -- This runs on LSP attach per buffer (see main LSP attach function in 'neovim/nvim-lspconfig' config for more info,
       -- it is better explained there). This allows easily switching between pickers if you prefer using something else!
@@ -807,6 +806,7 @@ require('lazy').setup({
         'stylua', -- Used to format Lua code
         'eslint-lsp',
         'oxlint',
+        'oxfmt',
       })
 
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
@@ -825,11 +825,7 @@ require('lazy').setup({
             -- certain features of an LSP (for example, turning off formatting for ts_ls)
             server.capabilities = require('blink.cmp').get_lsp_capabilities(vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {}))
 
-            if server_name == 'ts_ls' then
-              server.on_attach = function(client)
-                client.server_capabilities.documentFormattingProvider = false
-              end
-            end
+            if server_name == 'ts_ls' then server.on_attach = function(client) client.server_capabilities.documentFormattingProvider = false end end
 
             nvim_lsp[server_name].setup(server)
           end,
