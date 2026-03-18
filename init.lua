@@ -1032,6 +1032,11 @@ require('lazy').setup({
         styles = {
           comments = { italic = false }, -- Disable italics in comments
         },
+        on_highlights = function(hl, c)
+          hl.htmlTagName = { fg = c.blue }
+          hl.tsxTagName = { fg = c.yellow }
+          hl.typescriptVariableDeclaration = { fg = c.yellow }
+        end,
       }
 
       -- Load the colorscheme here.
@@ -1107,6 +1112,7 @@ require('lazy').setup({
         'vim',
         'vimdoc',
         'javascript',
+        'jsx',
         'typescript',
         'json',
         'yaml',
