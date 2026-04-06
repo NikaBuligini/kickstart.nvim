@@ -815,7 +815,11 @@ require('lazy').setup({
         terraformls = {},
         rust_analyzer = {},
         ['eslint-lsp'] = {},
-        oxlint = {},
+        oxlint = {
+          settings = {
+            typeAware = true,
+          },
+        },
         oxfmt = {},
       }
 
