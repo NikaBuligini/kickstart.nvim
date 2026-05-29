@@ -189,7 +189,17 @@ vim.diagnostic.config {
   virtual_lines = false, -- Text shows up underneath the line, with virtual lines
 
   -- Auto open the float, so you can easily read the errors when jumping with `[d` and `]d`
-  jump = { float = true },
+  jump = {
+    on_jump = function(diagnostic, bufnr)
+      if not diagnostic then return end
+      vim.diagnostic.open_float(bufnr, {
+        scope = 'cursor',
+        focus = false,
+        border = 'rounded',
+        source = 'if_many',
+      })
+    end,
+  },
 }
 
 local diagnosticUtils = require 'utils.diagnostic'
@@ -530,29 +540,29 @@ require('lazy').setup({
           local buf = event.buf
 
           -- Find references for the word under your cursor.
-          vim.keymap.set('n', 'grr', builtin.lsp_references, { buffer = buf, desc = '[G]oto [R]eferences' })
+          vim.keymap.set('n', 'grr', builtin.lsp_references, { buf = buf, desc = '[G]oto [R]eferences' })
 
           -- Jump to the implementation of the word under your cursor.
           -- Useful when your language has ways of declaring types without an actual implementation.
-          vim.keymap.set('n', 'gri', builtin.lsp_implementations, { buffer = buf, desc = '[G]oto [I]mplementation' })
+          vim.keymap.set('n', 'gri', builtin.lsp_implementations, { buf = buf, desc = '[G]oto [I]mplementation' })
 
           -- Jump to the definition of the word under your cursor.
           -- This is where a variable was first declared, or where a function is defined, etc.
           -- To jump back, press <C-t>.
-          vim.keymap.set('n', 'grd', builtin.lsp_definitions, { buffer = buf, desc = '[G]oto [D]efinition' })
+          vim.keymap.set('n', 'grd', builtin.lsp_definitions, { buf = buf, desc = '[G]oto [D]efinition' })
 
           -- Fuzzy find all the symbols in your current document.
           -- Symbols are things like variables, functions, types, etc.
-          vim.keymap.set('n', 'gO', builtin.lsp_document_symbols, { buffer = buf, desc = 'Open Document Symbols' })
+          vim.keymap.set('n', 'gO', builtin.lsp_document_symbols, { buf = buf, desc = 'Open Document Symbols' })
 
           -- Fuzzy find all the symbols in your current workspace.
           -- Similar to document symbols, except searches over your entire project.
-          vim.keymap.set('n', 'gW', builtin.lsp_dynamic_workspace_symbols, { buffer = buf, desc = 'Open Workspace Symbols' })
+          vim.keymap.set('n', 'gW', builtin.lsp_dynamic_workspace_symbols, { buf = buf, desc = 'Open Workspace Symbols' })
 
           -- Jump to the type of the word under your cursor.
           -- Useful when you're not sure what type a variable is and you want to see
           -- the definition of its *type*, not where it was *defined*.
-          vim.keymap.set('n', 'grt', builtin.lsp_type_definitions, { buffer = buf, desc = '[G]oto [T]ype Definition' })
+          vim.keymap.set('n', 'grt', builtin.lsp_type_definitions, { buf = buf, desc = '[G]oto [T]ype Definition' })
         end,
       })
 
@@ -650,7 +660,7 @@ require('lazy').setup({
           -- for LSP related items. It sets the mode, buffer and description for us each time.
           local map = function(keys, func, desc, mode)
             mode = mode or 'n'
-            vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
+            vim.keymap.set(mode, keys, func, { buf = event.buf, desc = 'LSP: ' .. desc })
           end
 
           -- Rename the variable under your cursor.
@@ -890,7 +900,7 @@ require('lazy').setup({
         -- Disable "format_on_save lsp_fallback" for languages that don't
         -- have a well standardized coding style. You can add additional
         -- languages here or re-enable it for the disabled ones.
-        local disable_filetypes = { c = true, cpp = true, typescript = true, typescriptreact = true }
+        local disable_filetypes = { c = true, cpp = true, typescript = true, typescriptreact = true, json = true }
         if disable_filetypes[vim.bo[bufnr].filetype] then
           return nil
         else
