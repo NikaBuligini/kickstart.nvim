@@ -251,6 +251,8 @@ vim.api.nvim_create_autocmd('TermOpen', {
     vim.opt_local.number = false
     vim.opt_local.relativenumber = false
 
+    if vim.bo.filetype == 'lazygit' then vim.bo.bufhidden = 'wipe' end
+
     vim.api.nvim_buf_set_keymap(0, 't', '<C-q>', '<C-\\><C-N>:bdelete!<CR>', { noremap = true, silent = true })
   end,
 })
