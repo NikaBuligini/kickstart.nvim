@@ -1,12 +1,16 @@
 return {
   'stevearc/oil.nvim',
-  ---@module 'oil'
-  ---@type oil.SetupOpts
-  opts = {},
-  -- Optional dependencies
-  dependencies = { { 'echasnovski/mini.icons', opts = {} } },
-  -- dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if you prefer nvim-web-devicons
-  -- Lazy loading is not recommended because it is very tricky to make it work correctly in all situations.
+  opts = {
+    -- Telescope File Browser owns directory buffers; Oil is opened explicitly with -.
+    default_file_explorer = false,
+    keymaps = {
+      gs = {
+        callback = function() require('grug-far').open { prefills = { paths = require('oil').get_current_dir() } } end,
+        desc = 'Search and replace in directory',
+      },
+    },
+  },
+  dependencies = { 'nvim-mini/mini.nvim' },
   lazy = false,
 
   config = function(_, opts)

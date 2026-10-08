@@ -1,133 +1,25 @@
 return {
   'nvim-neotest/neotest',
+  cmd = 'Neotest',
   dependencies = {
     'nvim-neotest/nvim-nio',
     'nvim-lua/plenary.nvim',
-    'antoinemadec/FixCursorHold.nvim',
     'nvim-treesitter/nvim-treesitter',
     'marilari88/neotest-vitest',
-    'thenbe/neotest-playwright',
+    'mfussenegger/nvim-dap',
   },
-  config = function()
-    local neotest = require 'neotest'
-
-    neotest.setup {
-      adapters = {
-        require 'neotest-vitest' {
-          filter_dir = function(name)
-            return name ~= 'node_modules'
-          end,
-
-          is_test_file = function(file)
-            return file:match '%.test%.tsx?$' ~= nil
-          end,
-        },
-
-        -- require('neotest-playwright').adapter {
-        --   options = {
-        --     persist_project_selection = true,
-        --     enable_dynamic_test_discovery = false,
-        --
-        --     is_test_file = function(file)
-        --       return file:match '%.spec%.tsx?$' ~= nil
-        --     end,
-        --   },
-        -- },
-      },
-    }
-
-    local wk = require 'which-key'
-
-    wk.add {
-      { mode = 'n', '<leader>t', group = 'Tests' },
-      {
-        mode = 'n',
-        '<leader>tt',
-        function()
-          neotest.run.run()
-        end,
-        desc = 'Run nearest test',
-      },
-      {
-        mode = 'n',
-        '<leader>tT',
-        function()
-          neotest.run.run { suite = true }
-        end,
-        desc = 'Run test suite',
-      },
-      {
-        mode = 'n',
-        '<leader>td',
-        function()
-          neotest.run.run { strategy = 'dap', suite = false }
-        end,
-        desc = 'Debug nearest test',
-      },
-      {
-        mode = 'n',
-        '<leader>tf',
-        function()
-          neotest.run.run(vim.fn.expand '%')
-        end,
-        desc = 'Run tests in current file',
-      },
-      {
-        mode = 'n',
-        '<leader>tl',
-        function()
-          neotest.run.run_last()
-        end,
-        desc = 'Run last test',
-      },
-      {
-        mode = 'n',
-        '<leader>tS',
-        function()
-          neotest.run.stop()
-        end,
-        desc = 'Stop running tests',
-      },
-      {
-        mode = 'n',
-        '<leader>to',
-        function()
-          neotest.output.open { enter = true }
-        end,
-        desc = 'Open output window',
-      },
-      {
-        mode = 'n',
-        '<leader>ts',
-        function()
-          neotest.summary.toggle()
-        end,
-        desc = 'Toggle summary panel',
-      },
-      {
-        mode = 'n',
-        '<leader>tp',
-        function()
-          neotest.output_panel.toggle()
-        end,
-        desc = 'Toggle test output panel',
-      },
-      {
-        mode = 'n',
-        '[t',
-        function()
-          neotest.jump.prev { status = 'failed' }
-        end,
-        desc = 'Jump to previous failed test',
-      },
-      {
-        mode = 'n',
-        ']t',
-        function()
-          neotest.jump.next { status = 'failed' }
-        end,
-        desc = 'Jump to next failed test',
-      },
-    }
-  end,
+  keys = {
+    { '<leader>tt', function() require('neotest').run.run() end, desc = 'Run nearest test' },
+    { '<leader>tT', function() require('neotest').run.run { suite = true } end, desc = 'Run test suite' },
+    { '<leader>td', function() require('neotest').run.run { strategy = 'dap', suite = false } end, desc = 'Debug nearest test' },
+    { '<leader>tf', function() require('neotest').run.run(vim.fn.expand '%') end, desc = 'Run tests in current file' },
+    { '<leader>tl', function() require('neotest').run.run_last() end, desc = 'Run last test' },
+    { '<leader>tS', function() require('neotest').run.stop() end, desc = 'Stop running tests' },
+    { '<leader>to', function() require('neotest').output.open { enter = true } end, desc = 'Open test output' },
+    { '<leader>ts', function() require('neotest').summary.toggle() end, desc = 'Toggle test summary' },
+    { '<leader>tp', function() require('neotest').output_panel.toggle() end, desc = 'Toggle test output panel' },
+    { '[t', function() require('neotest').jump.prev { status = 'failed' } end, desc = 'Previous failed test' },
+    { ']t', function() require('neotest').jump.next { status = 'failed' } end, desc = 'Next failed test' },
+  },
+  config = function() require('neotest').setup { adapters = { require 'neotest-vitest' {} } } end,
 }
