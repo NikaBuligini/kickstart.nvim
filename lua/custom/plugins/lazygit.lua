@@ -1,5 +1,10 @@
 return {
   'kdheepak/lazygit.nvim',
+  init = function()
+    vim.g.lazygit_use_custom_config_file_path = 1
+    vim.g.lazygit_config_file_path = vim.fn.stdpath('config')
+      .. '/../lazygit/config.yml'
+  end,
   cmd = {
     'LazyGit',
     'LazyGitConfig',
